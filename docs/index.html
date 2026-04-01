@@ -106,8 +106,8 @@ canvas.emscripten { border: 0px none; background-color: black; }
   </head>
   <body>
     <div id="lobby-handler">
-      <button id="start-button">
-        Press To Start
+      <button id="start-button" disabled=true>
+        Downloading...
       </button>
     </div>
 
@@ -244,6 +244,13 @@ html, body {
         canvas: canvasElement,
         totalDependencies: 0,
         monitorRunDependencies(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          if(left == 0){
+            setTimeout(() => {
+              document.getElementById("start-button").disabled = false;
+              document.getElementById("start-button").innerText = "Press to start!";
+            }, 10000)
+          }
         }
       };
   </script>
