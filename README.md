@@ -1,6 +1,8 @@
 # MinneFlight
 
-A demo showing motion control usage in video games over the air.
+A demo showing motion control usage in video games over the air. Built in C++, raylib, and a dash of rust.
+
+![](screenshot.png)
 
 ## Support
 
