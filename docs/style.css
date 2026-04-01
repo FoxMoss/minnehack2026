@@ -1,0 +1,63 @@
+/* no-scroll controller*/
+body {
+    overflow: hidden;
+}
+
+.img-btn{
+    all: unset;
+    display: block;
+    width: 100%;
+    max-width: 140px;
+    aspect-ratio: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: transparent;
+
+}
+
+
+
+#main-display{
+  #button-a { background-image: url("assets/PAUSE-OFF.png");}
+  #button-a:active{ background-image: url("assets/PAUSE-ON.png");}
+  #button-b { background-image: url("assets/SHOP.png");}
+
+  #button-x{ background-image: url("assets/GO-OFF.png");}
+  #button-x:active { background-image: url("assets/GO-ON.png"); }
+
+  #button-y { background-image: url("assets/SLOW-OFF.png");}
+  #button-y:active { background-image: url("assets/SLOW-ON.png"); }
+
+  #button-c{ background-image: url("ShopAssets/goBack.png");}
+  #button-c:active{ background-image: url("ShopAssets/saidGoBack.png");}
+}
+#game-display{
+  #button-a { background-image: url("assets/PAUSE-OFF.png");}
+  #button-a:active{ background-image: url("assets/PAUSE-ON.png");}
+}
+
+.img-btn-0 { background-image: url("./ShopAssets/LessBarrages.png");}
+.img-btn-1 { background-image: url("./ShopAssets/FastMenuver.png");}
+.img-btn-2 { background-image: url("./ShopAssets/MoreHealth.png");}
+.img-btn-3 { background-image: url("./ShopAssets/Protection.png");}
+.img-btn-4 { background-image: url("./ShopAssets/IncBarrageCooldown.png");}
+.img-btn-5 { background-image: url("./ShopAssets/Magnatisum.png");}
+
+.cutscene-container {
+  position: absolute;
+}
+.cutscene-container > img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+
+  cursor: pointer;
+}
+
+.emscripten {
+  position: absolute;
+  left: 20vw;
+  width: calc(100vw - 40vw);
+  z-index: -10;
+}

@@ -8,6 +8,30 @@ document.getElementById("start-button").addEventListener("click", () => {
   document.querySelector("body").requestFullscreen();
   screen.orientation.lock("landscape");
 
+
+let get_inputs = Module.cwrap('get_inputs', 'string', [])
+function step(_) {
+  const inp = get_inputs();
+
+
+
+  const msg = JSON.parse(inp);
+
+  if (msg["type"] == "set_game_state") {
+    renderLayout(msg["game_state"]);
+    if (msg["game_state"] == 2) {
+      let buttons = ["button-a", "button-b", "button-x", "button-y"];
+      for(let item in msg["upgrades"]){
+        document.querySelector(`#shop-display > div> #${buttons[item]}`).className = `img-btn img-btn-${msg["upgrades"][item]}`;
+      }
+
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+requestAnimationFrame(step);
   // socket.addEventListener("message", (e) => {
   //   const msg = JSON.parse(e.data);
   //
@@ -23,30 +47,35 @@ document.getElementById("start-button").addEventListener("click", () => {
   //   }
   // });
 
-  let gyroscope = new Gyroscope({ frequency: 10 });
+  try {
+    let gyroscope = new Gyroscope({ frequency: 10 });
 
-  gyroscope.addEventListener("reading", (e) => {
-    // socket.send(
-    //   JSON.stringify({
-    //     type: "gyro_update",
-    //     x: gyroscope.x,
-    //     y: gyroscope.y,
-    //     z: gyroscope.z,
-    //   }),
-    // );
-  });
-  gyroscope.start();
+    gyroscope.addEventListener("reading", (e) => {
+      // socket.send(
+      //   JSON.stringify({
+      //     type: "gyro_update",
+      //     x: gyroscope.x,
+      //     y: gyroscope.y,
+      //     z: gyroscope.z,
+      //   }),
+      // );
+    });
+    gyroscope.start();
+  } catch {
+    alert("Gyro not found, please use arrow keys.")
+  }
 
+  let send_inputs = Module.cwrap('send_inputs', 'void', ['string'])
   let buttons = ["a", "b", "x", "y"];
   for (let button in buttons) {
     document.querySelectorAll(`#button-${buttons[button]}`).forEach((a) =>
       a.addEventListener("mousedown", (e) => {
-        // socket.send(JSON.stringify({ type: "button_down", button: button }));
+        send_inputs(JSON.stringify({ type: "button_down", button: button }));
       }),
     );
     document.querySelectorAll(`#button-${buttons[button]}`).forEach((a) =>
       a.addEventListener("mouseup", (e) => {
-        // socket.send(JSON.stringify({ type: "button_up", button: button }));
+        send_inputs(JSON.stringify({ type: "button_up", button: button }));
       }),
     );
   }

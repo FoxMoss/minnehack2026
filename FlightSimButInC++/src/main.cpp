@@ -2,8 +2,11 @@
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
+#include <deque>
 #include <optional>
+#include <queue>
 #include <random>
 #include <string>
 #include <variant>
@@ -165,6 +168,31 @@ static std::vector<Entity> collectibles;
 
 static MenuState last_state = menu_state;
 
+#include <math.h>
+
+std::queue<std::string> input_log;
+std::optional<std::string> last_msg;
+
+extern "C" {
+
+void send_inputs(char* x) {
+  input_log.push(x);
+}
+
+char *get_inputs() {
+  if (!last_msg.has_value()) {
+    return "{}";
+    
+  }
+  char * a = (char*)malloc(last_msg->size() + 1);
+  memcpy(a, last_msg->c_str(), last_msg->size() + 1);
+
+  last_msg = {};
+  return a;
+}
+
+}
+
 int main(int argc, char *argv[]) {
   srand(time(NULL));
 
@@ -302,6 +330,11 @@ int main(int argc, char *argv[]) {
 
   void loop(){
     std::optional<std::string> msg = {};
+
+    if (!input_log.empty()) {
+      msg = input_log.front();
+      input_log.pop();
+    }
 #endif
     UpdateMusicStream(intenseMusic);
 
@@ -316,6 +349,8 @@ int main(int argc, char *argv[]) {
           data["upgrades"].push_back(upgrade.type);
         }
       }
+
+    last_msg = data.dump();
 #ifndef FLIGHT_SIM_STATIC
       c.send(data.dump());
 #endif
@@ -651,3 +686,4 @@ int main(int argc, char *argv[]) {
 #endif
 
 }
+

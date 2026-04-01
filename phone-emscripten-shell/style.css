@@ -49,8 +49,15 @@ body {
 }
 .cutscene-container > img {
   width: 100vw;
- height: 100vh;
+  height: 100vh;
   object-fit: contain;
 
   cursor: pointer;
+}
+
+.emscripten {
+  position: absolute;
+  left: 20vw;
+  width: calc(100vw - 40vw);
+  z-index: -10;
 }

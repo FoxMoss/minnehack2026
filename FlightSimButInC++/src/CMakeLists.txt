@@ -41,7 +41,7 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TAR
 if (${PLATFORM} STREQUAL "Web")
 
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html") # Tell Emscripten to build an example.html file.
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 --preload-file ../../resources@/  -sSTACK_SIZE=131072 -sINITIAL_MEMORY=171048960 -sEXPORTED_RUNTIME_METHODS=HEAPF32 --shell-file=../../../phone-emscripten-shell/index.html")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1 --preload-file ../../resources@/  -sSTACK_SIZE=131072 -sINITIAL_MEMORY=171048960 -sEXPORTED_RUNTIME_METHODS=HEAPF32,cwrap -sEXPORTED_FUNCTIONS=_send_inputs,_get_inputs,_main --shell-file=../../../phone-emscripten-shell/index.html")
 endif()
 
 add_custom_command(TARGET fly POST_BUILD
